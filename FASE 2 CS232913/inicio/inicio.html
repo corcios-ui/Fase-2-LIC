@@ -1,0 +1,64 @@
+<!DOCTYPE HTML>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cajero Automático</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/FASE 1 CS232913/css/inicio.css">
+</head>
+
+<body>
+
+<div class="container">
+    <div class="mb-3">
+        <img src="/FASE 1 CS232913/img/bank.png" alt="Bank Logo" class="img-fluid" height="90px" width="160px">
+    </div>
+
+    <div id="pp">
+        <p class="text">Bienvenidos Estimado José</p>
+        <p class="text">Su N° de cuenta es: CS232913, su saldo actual es <span id="saldo-actual">$500.00</span>.<br>Seleccione la operación a realizar:</p>
+    </div>
+
+    <div id="deposito">
+        <a href="/depositar/deposito.html" class="operation-link">
+            <input class="button" type="button" value="Depositar">
+        </a>
+    </div>
+
+    <div id="retiro">
+        <a href="/retiro/retiro.html" class="operation-link">
+            <input class="button" type="button" value="Retirar">
+        </a>
+    </div>
+
+    <div id="consulta">
+        <a href="/consultar/consulta.html" class="operation-link">
+            <input class="button" type="button" value="Consulta de saldo">
+        </a>
+    </div>
+
+    <div id="pago">
+        <a href="/pago/pago.html" class="operation-link">
+            <input class="button" type="button" value="Pago de servicio">
+        </a>
+    </div>
+
+    <div id="historial">
+        <a href="/historial/historial.html" class="operation-link">
+            <input class="button" type="button" value="Historial de transacciones">
+        </a>
+    </div>
+
+    <div id="cerrar">
+        <a href="/FASE 1 CS232913/index.html" class="operation-link">
+            <input class="button" type="button" value="Cerrar sesión">
+        </a>
+    </div>
+</div>
+
+<script src="/FASE 1 CS232913/js/inicio.js"></script>
+
+</body>
+</html>

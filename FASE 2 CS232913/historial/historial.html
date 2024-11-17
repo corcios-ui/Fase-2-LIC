@@ -1,0 +1,324 @@
+<!DOCTYPE HTML>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cajero Automático - Historial de Transacciones</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Estilos personalizados -->
+    <link rel="stylesheet" href="graficas.css">
+
+    <style>
+        body {
+            background-color: #9370DC;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background-color: #f2f2f2;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            width: 90%;
+            margin: auto;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: center;
+            border-bottom: 1px solid #ccc;
+        }
+
+        th {
+            background-color: #9370DB;
+            color: black;
+        }
+
+        tr:nth-child(even) {
+            background-color: #e8e8e8;
+        }
+
+        tr:hover {
+            background-color: #ddd;
+        }
+
+        .balance-container {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 1.2rem;
+            color: #333;
+        }
+
+        .btn-custom {
+            background-color: #9370DB;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 16px;
+            width: auto;
+            margin: 20px auto;
+            border: none;
+            cursor: pointer;
+            display: block;
+        }
+
+        .btn-custom:hover {
+            background-color: #b299e5;
+        }
+
+        .preview-container {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            display: none;
+        }
+
+        .modal-content {
+            padding: 20px;
+        }
+
+    </style>
+</head>
+
+<body>
+<div class="container">
+    <!-- Logo del banco -->
+    <div class="text-center mb-4">
+        <img src="/FASE 1 CS232913/img/bank.png" alt="Logo del banco" height="90px" width="160px">
+    </div>
+
+    <!-- Título -->
+    <h1>Historial de Transacciones</h1>
+
+    <!-- Tabla de transacciones -->
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>Servicio</th>
+            <th>Fecha</th>
+            <th>Monto</th>
+        </tr>
+        </thead>
+        <tbody id="transacciones-body">
+        </tbody>
+    </table>
+
+    <!-- Mostrar balance mensual y dinero actual -->
+    <div class="balance-container">
+        <p><strong>Balance mensual:</strong> <span id="balance-mensual">$0.00</span></p>
+        <p><strong>Dinero actual:</strong> <span id="dinero-actual">$0.00</span></p>
+    </div>
+
+    <!-- Botón para previsualizar el estado de cuenta -->
+    <button class="btn-custom" onclick="previsualizarInforme()">Previsualizar Informe</button>
+
+    <!-- Contenedor para la previsualización -->
+    <div id="preview" class="preview-container">
+        <h2>Previsualización del Estado de Cuenta</h2>
+        <p><strong>Fecha:</strong> <span id="fecha-informe"></span></p>
+        <p><strong>Balance mensual:</strong> <span id="preview-balance-mensual"></span></p>
+        <p><strong>Dinero actual:</strong> <span id="preview-dinero-actual"></span></p>
+        <ul id="lista-transacciones"></ul>
+        <!-- Botón para descargar el informe en PDF -->
+        <button class="btn-custom" id="descargar-pdf">Descargar Informe en PDF</button>
+    </div>
+
+    <!-- Botón para ver las gráficas -->
+    <button class="btn-custom" data-bs-toggle="modal" data-bs-target="#graficaModal">Ver Gráficas</button>
+    <!-- Modal para la gráfica -->
+    <div class="modal fade" id="graficaModal" tabindex="-1" aria-labelledby="graficaModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="graficaModalLabel">Gráfica de Transacciones</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <canvas id="graficaPastel"></canvas>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-custom" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <a href="/FASE 1 CS232913/inicio/inicio.html" class="btn-custom text-center">Regresar al menú principal</a>
+</div>
+
+<!-- jsPDF para descargar el PDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<!-- Chart.js para la gráfica -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    // Obtener el historial de transacciones desde localStorage
+    const historial = JSON.parse(localStorage.getItem('historial')) || [];
+
+    // Obtener el cuerpo de la tabla donde se mostrarán las transacciones
+    const transaccionesBody = document.getElementById('transacciones-body');
+
+    // Mostrar dinero actual desde localStorage
+    const saldoActual = parseFloat(localStorage.getItem('saldo')) || 0;
+    document.getElementById('dinero-actual').textContent = `$${saldoActual.toFixed(2)}`;
+
+    // Calcular balance mensual (asumimos que las transacciones son del mes actual)
+    let balanceMensual = 0;
+    let transaccionesPorServicio = {};
+
+    // Iterar sobre el historial y crear filas en la tabla
+    historial.forEach(transaccion => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${transaccion.servicio}</td>
+            <td>${transaccion.fecha}</td>
+            <td>${transaccion.monto}</td>
+        `;
+        transaccionesBody.appendChild(row);
+
+        // Sumar al balance mensual si la fecha es del mes actual
+        const fechaTransaccion = new Date(transaccion.fecha);
+        const fechaActual = new Date();
+
+        if (fechaTransaccion.getMonth() === fechaActual.getMonth() &&
+            fechaTransaccion.getFullYear() === fechaActual.getFullYear()) {
+            balanceMensual += parseFloat(transaccion.monto.replace('$', ''));
+        }
+
+        // Contabilizar transacciones por servicio
+        if (transaccionesPorServicio[transaccion.servicio]) {
+            transaccionesPorServicio[transaccion.servicio] += parseFloat(transaccion.monto.replace('$', ''));
+        } else {
+            transaccionesPorServicio[transaccion.servicio] = parseFloat(transaccion.monto.replace('$', ''));
+        }
+    });
+
+    // Mostrar balance mensual
+    document.getElementById('balance-mensual').textContent = `$${balanceMensual.toFixed(2)}`;
+
+    // Función para previsualizar el informe
+    function previsualizarInforme() {
+        document.getElementById('preview').style.display = 'block'; // Mostrar el contenedor de previsualización
+
+        // Cargar los datos en la previsualización
+        const fecha = new Date().toLocaleDateString();
+        document.getElementById('fecha-informe').textContent = fecha;
+        document.getElementById('preview-balance-mensual').textContent = `$${balanceMensual.toFixed(2)}`;
+        document.getElementById('preview-dinero-actual').textContent = `$${saldoActual.toFixed(2)}`;
+
+        // Mostrar las transacciones en la previsualización
+        const listaTransacciones = document.getElementById('lista-transacciones');
+        listaTransacciones.innerHTML = ''; // Limpiar la lista primero
+        historial.forEach((transaccion, index) => {
+            const item = document.createElement('li');
+            item.textContent = `${transaccion.servicio} - ${transaccion.fecha} - ${transaccion.monto}`;
+            listaTransacciones.appendChild(item);
+        });
+    }
+
+    // Función para generar el PDF del estado de cuenta (sin gráfica)
+    function generarPDF() {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+
+        const fecha = new Date().toLocaleDateString();
+
+        doc.setFontSize(18);
+        doc.text("Estado de Cuenta - Cajero Automático", 20, 20);
+        doc.setFontSize(12);
+        doc.text(`Fecha: ${fecha}`, 20, 30);
+        doc.text(`Balance mensual: $${balanceMensual.toFixed(2)}`, 20, 40);
+        doc.text(`Dinero actual: $${saldoActual.toFixed(2)}`, 20, 50);
+
+        // Agregar las transacciones
+        doc.setFontSize(14);
+        doc.text("Transacciones:", 20, 60);
+        let yPosition = 70;
+
+        historial.forEach((transaccion, index) => {
+            const servicio = transaccion.servicio;
+            const fecha = transaccion.fecha;
+            const monto = transaccion.monto;
+            doc.text(`${index + 1}. ${servicio} - ${fecha} - ${monto}`, 20, yPosition);
+            yPosition += 10;
+        });
+
+        // Descargar el PDF
+        doc.save("estado_cuenta.pdf");
+    }
+
+    // Asignar la función al botón de descargar PDF
+    document.getElementById('descargar-pdf').addEventListener('click', generarPDF);
+
+    // Función para generar la gráfica de pastel
+    document.getElementById('graficaModal').addEventListener('shown.bs.modal', function () {
+        const ctx = document.getElementById('graficaPastel').getContext('2d');
+        const labels = Object.keys(transaccionesPorServicio);
+        const data = Object.values(transaccionesPorServicio);
+
+        new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Monto por Servicio',
+                    data: data,
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false
+            }
+        });
+    });
+</script>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

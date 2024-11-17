@@ -1,0 +1,59 @@
+body {
+    background-color: #9370DB;
+    background-image: linear-gradient(135deg, #9370DB 40%, #b299e5 60%);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Open Sans', Arial, sans-serif; /* Fuente más moderna */
+    margin: 0;
+}
+
+.container {
+    background-color: white;
+    border-radius: 12px; /* Esquinas más redondeadas para un look más suave */
+    padding: 40px; /* Un poco más de padding para dar más espacio */
+    max-width: 400px;
+    width: 90%; /* Ligeramente más adaptable */
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15); /* Sombra más profunda para mejor contraste */
+}
+
+.container img {
+    width: 180px; /* Un poco más grande para darle más presencia */
+    margin-bottom: 30px;
+}
+
+h1 {
+    font-size: 1.8rem; /* Tamaño más grande para darle más importancia */
+    color: #34495e;
+    margin-bottom: 25px; /* Más espacio después del título */
+}
+
+.btn-custom {
+    background-color: #8a65d1; /* Un color más oscuro para el botón */
+    color: white;
+    border-radius: 10px; /* Más redondeado */
+    font-size: 18px; /* Texto más grande */
+    padding: 12px;
+    width: 100%;
+    margin-top: 15px;
+    border: none;
+    transition: background-color 0.3s, transform 0.2s; /* Animación al interactuar */
+}
+
+.btn-custom:hover {
+    background-color: #9d77ea; /* Un cambio de color más notable */
+    transform: scale(1.05); /* Ligeramente más grande al hacer hover */
+}
+
+.btn-group {
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Más espacio entre botones */
+}
+
+.btn-group a, .btn-group button {
+    text-decoration: none; /* Asegurarse que los enlaces no tienen subrayado */
+}

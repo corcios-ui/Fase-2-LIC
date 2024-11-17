@@ -1,0 +1,73 @@
+<!DOCTYPE HTML>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio - Pago</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/FASE 1 CS232913/css/pago.css">
+</head>
+
+<body>
+<div class="container">
+    <p class="text">Ingrese el monto a pagar</p>
+    <img src="/FASE 1 CS232913/img/bank.png" alt="Bank Logo" class="img-fluid" height="70px" width="160px">
+    <div id="monto">
+        <input type="number" id="monto-pago" name="monto" min="1" placeholder="Monto" required>
+    </div>
+    <div id="aceptar">
+        <button class="button" onclick="realizarPago('Telefonía')">Pagar Telefonía</button>
+        <button class="button" onclick="realizarPago('Agua Potable')">Pagar Agua Potable</button>
+        <button class="button" onclick="realizarPago('Electricidad')">Pagar Electricidad</button>
+        <button class="button" onclick="realizarPago('Internet')">Pagar Internet</button>
+    </div>
+    <div id="menua">
+        <a href="/FASE 1 CS232913/inicio/inicio.html">
+            <input class="button" type="button" value="Regresar al menú principal">
+        </a>
+    </div>
+</div>
+
+<!-- Modal para saldo insuficiente -->
+<div class="modal fade" id="saldoInsuficienteModal" tabindex="-1" aria-labelledby="saldoInsuficienteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="saldoInsuficienteModalLabel">Saldo Insuficiente</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Saldo insuficiente. Por favor, ingrese un monto menor o recargue su saldo.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para monto no válido -->
+<div class="modal fade" id="montoInvalidoModal" tabindex="-1" aria-labelledby="montoInvalidoModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="montoInvalidoModalLabel">Monto Inválido</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Por favor, introduzca un monto válido.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/FASE 1 CS232913/js/pago.js"></script>
+</body>
+
+</html>

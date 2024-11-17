@@ -1,0 +1,89 @@
+body {
+    background-color: #9370DC;
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* Asegura que el contenido se centre verticalmente en toda la pantalla */
+}
+
+.container {
+    background-color: #f2f2f2;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    width: 90%; /* Adaptabilidad mejorada al ancho de la ventana */
+    margin: auto; /* Centrado horizontal en pantallas más grandes */
+}
+
+h1 {
+    color: #333;
+    margin-bottom: 20px;
+    font-size: 1.8rem;
+    text-align: center;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    padding: 15px;
+    text-align: center;
+    border-bottom: 1px solid #ccc; /* Añade una línea sutil entre filas para mejor separación visual */
+}
+
+th {
+    background-color: #9370DB;
+    color: white; /* Mejor contraste y legibilidad */
+}
+
+tr:nth-child(even) {
+    background-color: #e8e8e8; /* Un gris más claro para mejor legibilidad */
+}
+
+tr:hover {
+    background-color: #ddd; /* Efecto hover más sutil */
+}
+
+.balance-container {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 1.2rem;
+    color: #333;
+}
+
+.btn-custom {
+    background-color: #9370DB;
+    color: white;
+    padding: 12px 24px; /* Botón más grande para mejor clicabilidad */
+    border-radius: 8px;
+    font-size: 16px;
+    width: auto; /* Cambia de 100% a auto para que el botón no sea demasiado ancho */
+    margin: 20px auto; /* Centrado y más espacio alrededor */
+    border: none;
+    cursor: pointer;
+    display: block;
+}
+
+.btn-custom:hover {
+    background-color: #b299e5;
+}
+
+.preview-container {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    display: none; /* Asegúrate de tener algún mecanismo para mostrar este contenedor si es necesario */
+}
+
+.modal-content {
+    padding: 20px; /* Verifica que se esté utilizando esta clase en algún lugar del HTML */
+}

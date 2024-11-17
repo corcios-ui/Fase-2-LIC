@@ -1,0 +1,60 @@
+<!DOCTYPE HTML>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cajero Automático - Historial de Transacciones</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="graficas.css">
+    <link rel="stylesheet" href="historial.css">
+</head>
+
+<body>
+<div class="container">
+    <div class="text-center mb-4">
+        <img src="/FASE 1 CS232913/img/bank.png" alt="Logo del banco" height="90px" width="160px">
+    </div>
+    <h1>Historial de Transacciones</h1>
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>Servicio</th>
+            <th>Fecha</th>
+            <th>Monto</th>
+        </tr>
+        </thead>
+        <tbody id="transacciones-body">
+        </tbody>
+    </table>
+    <div class="balance-container">
+        <p><strong>Balance mensual:</strong> <span id="balance-mensual">$0.00</span></p>
+        <p><strong>Dinero actual:</strong> <span id="dinero-actual">$0.00</span></p>
+    </div>
+    <button class="btn-custom" onclick="previsualizarInforme()">Previsualizar Informe</button>
+    <div id="preview" class="preview-container"></div>
+    <button class="btn-custom" data-bs-toggle="modal" data-bs-target="#graficaModal">Ver Gráficas</button>
+    <div class="modal fade" id="graficaModal" tabindex="-1" aria-labelledby="graficaModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="graficaModalLabel">Gráfica de Transacciones</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <canvas id="graficaPastel"></canvas>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-custom" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <a href="/FASE 1 CS232913/inicio/inicio.html" class="btn-custom">Regresar al menú anterior</a>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="historial.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

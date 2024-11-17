@@ -1,0 +1,59 @@
+<!DOCTYPE HTML>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pago Exitoso</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/FASE 1 CS232913/css/exito.css">
+</head>
+
+<body>
+
+<div class="container">
+    <!-- Mensaje de éxito -->
+    <h1>Pago realizado con éxito</h1>
+
+    <!-- Logo del banco -->
+    <img src="/FASE 1 CS232913/img/bank.png" alt="Logo del Banco">
+
+    <!-- Botones -->
+    <div class="btn-group">
+        <button class="btn-custom" data-bs-toggle="modal" data-bs-target="#previewModal">Previsualizar recibo</button>
+        <a href="/FASE 1 CS232913/pago/pago.html" class="btn-custom text-center">Realizar otro pago</a>
+        <a href="/FASE 1 CS232913/inicio/inicio.html" class="btn-custom text-center">Regresar al menú principal</a>
+    </div>
+
+</div>
+
+<!-- Modal de previsualización -->
+<div class="modal fade" id="previewModal" tabindex="-1" aria-labelledby="previewModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="previewModalLabel">Previsualización del recibo</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p><strong>Banco:</strong> Cajero Automático</p>
+                <p><strong>Fecha:</strong> <span id="fecha-recibo"></span></p>
+                <p><strong>Servicio:</strong> <span id="servicio-pago-recibo"></span></p>
+                <p><strong>Monto del pago:</strong> <span id="monto-pago-recibo"></span></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" onclick="guardarPDF()">Guardar en PDF</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS y jsPDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/FASE 1 CS232913/js/exito.js"></script>
+
+</body>
+
+</html>
